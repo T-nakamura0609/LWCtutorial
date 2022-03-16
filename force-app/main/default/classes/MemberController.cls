@@ -69,23 +69,7 @@ public with sharing class MemberController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<member__c> getMemberList(String memberName, String projectName, String kind) {
-        
-
-        String queryCond = '';
-        queryCond = createConditionSingle(queryCond, memberName, true, true, null, 'Name');
-        queryCond = createConditionSingle(queryCond, projectName, true, true, null, 'ProjectName__r.name');
-        queryCond = createConditionSingle(queryCond, kind, false, false, null, 'Kind__c');
-
-        if(!String.isBlank(queryCond)){
-            queryStr = queryStr + ' WHERE ' + queryCond;
-        }
-
-        return Database.query(queryStr);
-    }
-
-    @AuraEnabled(cacheable=true)
-    public static List<BodyWrapper> getMemberList2(String memberName, String projectName, String kind) {
+    public static List<BodyWrapper> getMemberList(String memberName, String projectName, String kind) {
         String queryCond = '';
         queryCond = createConditionSingle(queryCond, memberName, true, true, null, 'Name');
         queryCond = createConditionSingle(queryCond, projectName, true, true, null, 'ProjectName__r.name');
@@ -137,7 +121,7 @@ public with sharing class MemberController {
                 return 'slds-text-color_success slds-text-heading_small';
             } else if(input > 0) {
                 // return 'slds-text-color_weak';
-                return 't(colorTextBrand) slds-text-heading_medium';
+                return 'member-table-cmp-blue slds-text-heading_medium';
             } else {
                 return 'slds-text-color_error slds-text-heading_large';
             }
