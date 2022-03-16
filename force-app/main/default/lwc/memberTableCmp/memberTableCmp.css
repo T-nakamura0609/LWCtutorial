@@ -1,34 +1,31 @@
-.THIS {
-}
-
-.THIS .member-table-cmp-red {
-    font: red;
+.member-table-cmp-red {
+    color: red;
     /* background : yellowgreen; */
 }
 
-.THIS .member-table-cmp-blue {
-    font: blue;
+.member-table-cmp-blue {
+    color: var(--lwc-colorTextBrand);
     /* background : yellowgreen; */
 }
 
-.THIS .member-table-cmp-green {
-    font: green;
+.member-table-cmp-green {
+    color: green;
     /* background : yellowgreen; */
 }
 
-.THIS .member-table-cmp thead th span{
+.member-table-cmp thead th span{
     background-color: #3258a8;
     color: white;
 }
-.THIS .member-table-cmp td {
+.member-table-cmp td {
     background-color: #fffbdb;
     color: red;
 }
-.THIS .member-table-cmp tr {
+.member-table-cmp tr {
     background-color: #fffbdb;
     color: blue;
 }
-.THIS .member-table-cmp td:hover {
+.member-table-cmp td:hover {
     background-color: #ffed63 !important;
     color: black !important;
     font-weight:bold !important;

@@ -103,25 +103,45 @@ public with sharing class MemberController {
             bw.memberName = member.Name;
             bw.projectName = member.ProjectName__r.Name;
             bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
-            bw.format01 = (member.January__c == 100) ? 'slds-text-color_success': (member.January__c > 0) ? 't(brandPrimary)': 'slds-text-color_error';
+            bw.format01 = getCssStyle(member.January__c);
             bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
-            bw.format02 = 'member-table-cmp-blue';
+            bw.format02 = getCssStyle(member.February__c);
             bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
+            bw.format03 = getCssStyle(member.March__c);
             bw.month04 = (member.April__c == null) ? '0': member.April__c.format();
+            bw.format04 = getCssStyle(member.April__c);
             bw.month05 = (member.May__c == null) ? '0': member.May__c.format();
+            bw.format05 = getCssStyle(member.May__c);
             bw.month06 = (member.June__c == null) ? '0': member.June__c.format();
+            bw.format06 = getCssStyle(member.June__c);
             bw.month07 = (member.July__c == null) ? '0': member.July__c.format();
+            bw.format07 = getCssStyle(member.July__c);
             bw.month08 = (member.August__c == null) ? '0': member.August__c.format();
+            bw.format08 = getCssStyle(member.August__c);
             bw.month09 = (member.September__c == null) ? '0': member.September__c.format();
+            bw.format09 = getCssStyle(member.September__c);
             bw.month10 = (member.October__c == null) ? '0': member.October__c.format();
+            bw.format10 = getCssStyle(member.October__c);
             bw.month11 = (member.November__c == null) ? '0': member.November__c.format();
+            bw.format11 = getCssStyle(member.November__c);
             bw.month12 = (member.December__c == null) ? '0': member.December__c.format();
+            bw.format12 = getCssStyle(member.December__c);
 
             result.add(bw);
         }
 
         return result;
     }
+        private static String getCssStyle(Decimal input) {
+            if(input == 100){
+                return 'slds-text-color_success slds-text-heading_small';
+            } else if(input > 0) {
+                // return 'slds-text-color_weak';
+                return 't(colorTextBrand) slds-text-heading_medium';
+            } else {
+                return 'slds-text-color_error slds-text-heading_large';
+            }
+        }
 
     private static String createConditionSingle(
         String prevCond, String searchString, Boolean preLike, Boolean postLike, Decimal searchNumeric, String fieldName ) {
