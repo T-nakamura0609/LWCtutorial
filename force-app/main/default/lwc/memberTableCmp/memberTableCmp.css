@@ -1,0 +1,35 @@
+.THIS {
+}
+
+.THIS .member-table-cmp-red {
+    font: red;
+    /* background : yellowgreen; */
+}
+
+.THIS .member-table-cmp-blue {
+    font: blue;
+    /* background : yellowgreen; */
+}
+
+.THIS .member-table-cmp-green {
+    font: green;
+    /* background : yellowgreen; */
+}
+
+.THIS .member-table-cmp thead th span{
+    background-color: #3258a8;
+    color: white;
+}
+.THIS .member-table-cmp td {
+    background-color: #fffbdb;
+    color: red;
+}
+.THIS .member-table-cmp tr {
+    background-color: #fffbdb;
+    color: blue;
+}
+.THIS .member-table-cmp td:hover {
+    background-color: #ffed63 !important;
+    color: black !important;
+    font-weight:bold !important;
+}

@@ -2,16 +2,75 @@ public with sharing class MemberController {
 
     private static final Integer INTEGER_MAX_VALUE = 2147483647;
 
+    private static String queryStr = 'select Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
+        ' July__c, August__c, September__c, October__c, November__c, December__c,' +
+        ' ProjectName__c, ProjectName__r.name ' + 
+        ' from member__c';
+    
     public MemberController() {
 
     }
 
+    public class BodyWrapper {
+        @AuraEnabled
+        public String memberName;
+        @AuraEnabled
+        public String projectName;
+        @AuraEnabled
+        public String month01;
+        @AuraEnabled
+        public String month02;
+        @AuraEnabled
+        public String month03;
+        @AuraEnabled
+        public String month04;
+        @AuraEnabled
+        public String month05;
+        @AuraEnabled
+        public String month06;
+        @AuraEnabled
+        public String month07;
+        @AuraEnabled
+        public String month08;
+        @AuraEnabled
+        public String month09;
+        @AuraEnabled
+        public String month10;
+        @AuraEnabled
+        public String month11;
+        @AuraEnabled
+        public String month12;
+
+        // 以下css定義
+        @AuraEnabled
+        public String format01;
+        @AuraEnabled
+        public String format02;
+        @AuraEnabled
+        public String format03;
+        @AuraEnabled
+        public String format04;
+        @AuraEnabled
+        public String format05;
+        @AuraEnabled
+        public String format06;
+        @AuraEnabled
+        public String format07;
+        @AuraEnabled
+        public String format08;
+        @AuraEnabled
+        public String format09;
+        @AuraEnabled
+        public String format10;
+        @AuraEnabled
+        public String format11;
+        @AuraEnabled
+        public String format12;
+    }
+
     @AuraEnabled(cacheable=true)
     public static List<member__c> getMemberList(String memberName, String projectName, String kind) {
-        String queryStr = 'select Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
-        ' July__c, August__c, September__c, October__c, November__c, December__c,' +
-        ' ProjectName__c, ProjectName__r.name ' + 
-        ' from member__c';
+        
 
         String queryCond = '';
         queryCond = createConditionSingle(queryCond, memberName, true, true, null, 'Name');
@@ -23,14 +82,45 @@ public with sharing class MemberController {
         }
 
         return Database.query(queryStr);
+    }
 
-        // return [
-        //     select Name, January__c, February__c, March__c, April__c, May__c, June__c,
-        //         July__c, August__c, September__c, October__c, November__c, December__c,
-        //         ProjectName__c, ProjectName__r.name  
-        //     from member__c
-        //     order by Name, ProjectName__r.Name
-        // ];
+    @AuraEnabled(cacheable=true)
+    public static List<BodyWrapper> getMemberList2(String memberName, String projectName, String kind) {
+        String queryCond = '';
+        queryCond = createConditionSingle(queryCond, memberName, true, true, null, 'Name');
+        queryCond = createConditionSingle(queryCond, projectName, true, true, null, 'ProjectName__r.name');
+        queryCond = createConditionSingle(queryCond, kind, false, false, null, 'Kind__c');
+
+        if(!String.isBlank(queryCond)){
+            queryStr = queryStr + ' WHERE ' + queryCond;
+        }
+
+        List<BodyWrapper> result = new List<BodyWrapper>();
+        List<member__c> members = Database.query(queryStr);
+        for (member__c member : members) {
+            // ここでサブクラスに再格納とCSSの設定
+            BodyWrapper bw = new BodyWrapper();
+            bw.memberName = member.Name;
+            bw.projectName = member.ProjectName__r.Name;
+            bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
+            bw.format01 = (member.January__c == 100) ? 'slds-text-color_success': (member.January__c > 0) ? 't(brandPrimary)': 'slds-text-color_error';
+            bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
+            bw.format02 = 'member-table-cmp-blue';
+            bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
+            bw.month04 = (member.April__c == null) ? '0': member.April__c.format();
+            bw.month05 = (member.May__c == null) ? '0': member.May__c.format();
+            bw.month06 = (member.June__c == null) ? '0': member.June__c.format();
+            bw.month07 = (member.July__c == null) ? '0': member.July__c.format();
+            bw.month08 = (member.August__c == null) ? '0': member.August__c.format();
+            bw.month09 = (member.September__c == null) ? '0': member.September__c.format();
+            bw.month10 = (member.October__c == null) ? '0': member.October__c.format();
+            bw.month11 = (member.November__c == null) ? '0': member.November__c.format();
+            bw.month12 = (member.December__c == null) ? '0': member.December__c.format();
+
+            result.add(bw);
+        }
+
+        return result;
     }
 
     private static String createConditionSingle(
