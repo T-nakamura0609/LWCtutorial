@@ -11,6 +11,12 @@ public with sharing class MemberController {
 
     }
 
+    public class ParentProject {
+        @AuraEnabled
+        public String projectName;
+        @AuraEnabled
+        public List<BodyWrapper> chirdren;
+    }
     public class BodyWrapper {
         @AuraEnabled
         public String memberName;
@@ -40,32 +46,6 @@ public with sharing class MemberController {
         public String month11;
         @AuraEnabled
         public String month12;
-
-        // 以下css定義
-        @AuraEnabled
-        public String format01;
-        @AuraEnabled
-        public String format02;
-        @AuraEnabled
-        public String format03;
-        @AuraEnabled
-        public String format04;
-        @AuraEnabled
-        public String format05;
-        @AuraEnabled
-        public String format06;
-        @AuraEnabled
-        public String format07;
-        @AuraEnabled
-        public String format08;
-        @AuraEnabled
-        public String format09;
-        @AuraEnabled
-        public String format10;
-        @AuraEnabled
-        public String format11;
-        @AuraEnabled
-        public String format12;
     }
 
     @AuraEnabled(cacheable=true)
@@ -76,56 +56,97 @@ public with sharing class MemberController {
         queryCond = createConditionSingle(queryCond, kind, false, false, null, 'Kind__c');
 
         if(!String.isBlank(queryCond)){
-            queryStr = queryStr + ' WHERE ' + queryCond;
+            queryStr = queryStr + ' WHERE ' + queryCond + ' Order by ProjectName__r.name';
+            // queryStr = queryStr + ' WHERE ' + queryCond;
         }
 
         List<BodyWrapper> result = new List<BodyWrapper>();
-        List<member__c> members = Database.query(queryStr);
-        for (member__c member : members) {
+        
+        // List<member__c> members = Database.query(queryStr);
+        
+        for (member__c member : Database.query(queryStr)) {
             // ここでサブクラスに再格納とCSSの設定
             BodyWrapper bw = new BodyWrapper();
             bw.memberName = member.Name;
             bw.projectName = member.ProjectName__r.Name;
             bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
-            bw.format01 = getCssStyle(member.January__c);
             bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
-            bw.format02 = getCssStyle(member.February__c);
             bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
-            bw.format03 = getCssStyle(member.March__c);
             bw.month04 = (member.April__c == null) ? '0': member.April__c.format();
-            bw.format04 = getCssStyle(member.April__c);
             bw.month05 = (member.May__c == null) ? '0': member.May__c.format();
-            bw.format05 = getCssStyle(member.May__c);
             bw.month06 = (member.June__c == null) ? '0': member.June__c.format();
-            bw.format06 = getCssStyle(member.June__c);
             bw.month07 = (member.July__c == null) ? '0': member.July__c.format();
-            bw.format07 = getCssStyle(member.July__c);
             bw.month08 = (member.August__c == null) ? '0': member.August__c.format();
-            bw.format08 = getCssStyle(member.August__c);
             bw.month09 = (member.September__c == null) ? '0': member.September__c.format();
-            bw.format09 = getCssStyle(member.September__c);
             bw.month10 = (member.October__c == null) ? '0': member.October__c.format();
-            bw.format10 = getCssStyle(member.October__c);
             bw.month11 = (member.November__c == null) ? '0': member.November__c.format();
-            bw.format11 = getCssStyle(member.November__c);
             bw.month12 = (member.December__c == null) ? '0': member.December__c.format();
-            bw.format12 = getCssStyle(member.December__c);
 
             result.add(bw);
         }
 
         return result;
     }
-        private static String getCssStyle(Decimal input) {
-            if(input == 100){
-                return 'slds-text-color_success slds-text-heading_small';
-            } else if(input > 0) {
-                // return 'slds-text-color_weak';
-                return 'member-table-cmp-blue slds-text-heading_medium';
-            } else {
-                return 'slds-text-color_error slds-text-heading_large';
-            }
+
+    @AuraEnabled(cacheable=true)
+    public static List<ParentProject> getMemberList2(String memberName, String projectName, String kind) {
+        String queryStr = 'select name, ( select Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
+        ' July__c, August__c, September__c, October__c, November__c, December__c,' +
+        ' ProjectName__c, ProjectName__r.name ' + 
+        ' from ProjectName__r ) from project__c';
+        
+        String queryCond = '';
+        queryCond = createConditionSingle(queryCond, memberName, true, true, null, 'Name');
+        queryCond = createConditionSingle(queryCond, projectName, true, true, null, 'ProjectName__r.name');
+        queryCond = createConditionSingle(queryCond, kind, false, false, null, 'Kind__c');
+
+        if(!String.isBlank(queryCond)){
+            queryStr = queryStr + ' WHERE ' + queryCond + ' Order by ProjectName__r.name';
         }
+
+        Map<String, List<BodyWrapper>> workmap = new Map<String, List<BodyWrapper>>();
+        List<ParentProject> worklist = new List<ParentProject>();
+        
+        // List<member__c> members = Database.query(queryStr);
+        
+        for (member__c member : Database.query(queryStr)) {
+            // ここでサブクラスに再格納とCSSの設定
+            BodyWrapper bw = new BodyWrapper();
+            bw.memberName = member.Name;
+            bw.projectName = member.ProjectName__r.Name;
+            bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
+            bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
+            bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
+            bw.month04 = (member.April__c == null) ? '0': member.April__c.format();
+            bw.month05 = (member.May__c == null) ? '0': member.May__c.format();
+            bw.month06 = (member.June__c == null) ? '0': member.June__c.format();
+            bw.month07 = (member.July__c == null) ? '0': member.July__c.format();
+            bw.month08 = (member.August__c == null) ? '0': member.August__c.format();
+            bw.month09 = (member.September__c == null) ? '0': member.September__c.format();
+            bw.month10 = (member.October__c == null) ? '0': member.October__c.format();
+            bw.month11 = (member.November__c == null) ? '0': member.November__c.format();
+            bw.month12 = (member.December__c == null) ? '0': member.December__c.format();
+
+            // 一旦Mapにプロジェクト毎にまとめる
+            if(workmap.containsKey(bw.projectName)){
+                workmap.get(bw.projectName).add(bw);
+            }else {
+                List<BodyWrapper> wklist = new List<BodyWrapper>();
+                workmap.put(bw.projectName, wklist);
+                workmap.get(bw.projectName).add(bw);
+
+                ParentProject ppwork = new ParentProject();
+                ppwork.projectName = bw.projectName;
+                ppwork.chirdren = wklist;
+                
+                // 最後にリストに変換して返す
+                worklist.add(ppwork);
+            }
+
+        }
+
+        return worklist;
+    }
 
     private static String createConditionSingle(
         String prevCond, String searchString, Boolean preLike, Boolean postLike, Decimal searchNumeric, String fieldName ) {

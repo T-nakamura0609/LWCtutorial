@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-m-top_medium slds-m-bottom_x-large">
+        <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+            Tree Grid component with data from a static source. Click on the arrow icons to expand or collapse a branch.
+        </h2>
+
+        <!-- Simple -->
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-tree-grid
+                columns={columns}
+                data={data}
+                key-field="Id"
+            ></lightning-tree-grid>
+        </div>
+    </div>
+</template>

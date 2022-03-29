@@ -6,8 +6,8 @@ import {loadStyle} from 'lightning/platformResourceLoader'
 import COLORS from '@salesforce/resourceUrl/colors'
 
 const COLUMNS = [
-    {label: '技術者名', fieldName: 'memberName'},
     {label: '配属プロジェクト', fieldName: 'projectName', type: 'text'},
+    {label: '技術者名', fieldName: 'memberName'},
     {label: '1月', fieldName: 'month01', type: 'text', editable: true , cellAttributes:{class:{fieldName: 'format01'} }},
     {label: '2月', fieldName: 'month02', type: 'text', editable: true , cellAttributes:{class:{fieldName: 'format02'} }},
     {label: '3月', fieldName: 'month03', type: 'text', editable: true , cellAttributes:{class:{fieldName: 'format03'} }},
@@ -22,7 +22,7 @@ const COLUMNS = [
     {label: '12月', fieldName: 'month12', type: 'text', editable: true , cellAttributes:{class:{fieldName: 'format12'} }},
 ];
 
-export default class MemberTableCmp extends LightningElement {
+export default class TreeGridCmp extends LightningElement {
     @wire(CurrentPageReference) pageRef;
 
     @track data = [];
@@ -34,7 +34,7 @@ export default class MemberTableCmp extends LightningElement {
 
     connectedCallback() {
         // subscribe to searchKeyChange event
-        registerListener('searchResult', this.handleResult, this);
+        registerListener('searchResult2', this.handleResult, this);
     }
 
     disconnectedCallback() {
@@ -82,13 +82,12 @@ export default class MemberTableCmp extends LightningElement {
 
     getCssStyle(input){
         if(input == 100){
-            //  slds-icon-custom-custom12
-            return 'slds-text-color_success slds-text-heading_small';
+            return 'slds-text-color_success slds-text-heading_small slds-icon-custom-custom12';
         } else if(input > 0) {
             // return 'slds-text-color_weak';
-            return 'member-table-cmp-blue slds-text-heading_medium';
+            return 'member-table-cmp-blue slds-text-heading_medium slds-icon-custom-custom12';
         } else {
-            return "slds-text-color_error slds-text-heading_large slds-icon";
+            return "slds-text-color_error slds-text-heading_large slds-icon slds-icon-custom-custom12";
         }
     }
 
@@ -101,7 +100,5 @@ export default class MemberTableCmp extends LightningElement {
             console.error("Error in loading the colors")
         })
     }
-    // columns = COLUMNS;
-    // @wire(getMemberList)
-    // members;
+
 }
