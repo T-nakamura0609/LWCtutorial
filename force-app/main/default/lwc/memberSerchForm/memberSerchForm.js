@@ -1,6 +1,7 @@
 import { LightningElement, track, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import getMemberList from '@salesforce/apex/MemberController.getMemberList';
+import getMemberList2 from '@salesforce/apex/MemberController.getMemberList2';
 import { fireEvent } from 'c/pubsub';
 
 export default class MemberSerchForm extends LightningElement {
@@ -52,6 +53,15 @@ export default class MemberSerchForm extends LightningElement {
         getMemberList(params)
             .then(result => {
                 fireEvent(pageRef, 'searchResult', result);
+                this.error = undefined;
+            })
+            .catch(error => {
+                this.error = error;
+            });
+            
+        getMemberList2(params)
+            .then(result => {
+                fireEvent(pageRef, 'searchResult2', result);
                 this.error = undefined;
             })
             .catch(error => {
