@@ -5,10 +5,10 @@ import { registerListener, unregisterAllListeners } from 'c/pubsub';
 import {loadStyle} from 'lightning/platformResourceLoader'
 import COLORS from '@salesforce/resourceUrl/colors'
 
-const PARENTCOLUMNS = [
-    {label: '配属プロジェクト', fieldName: 'projectName', type: 'text'},
-    {_children: [], type: COLUMNS},
-];
+// const PARENTCOLUMNS = [
+//     {label: '配属プロジェクト', fieldName: 'projectName', type: 'text'},
+//     {_children: [], type: COLUMNS},
+// ];
 const COLUMNS = [
     {label: '配属プロジェクト', fieldName: 'projectName', type: 'text'},
     {label: '技術者名', fieldName: 'memberName'},
@@ -38,7 +38,8 @@ export default class TreeGridCmp extends LightningElement {
 
     connectedCallback() {
         // subscribe to searchKeyChange event
-        registerListener('searchResult2', this.handleResult, this);
+        // registerListener('searchResult2', this.handleResult, this);
+        registerListener('searchResult3', this.handleResult2, this);
     }
 
     disconnectedCallback() {
@@ -53,7 +54,7 @@ export default class TreeGridCmp extends LightningElement {
             console.log('data:' + data);
             this.data = data.map(item =>{
                 console.log('pj name:' + item.Name);
-                let children = [];
+                let members = [];
                 if(item.ProjectName__r){
                     item.ProjectName__r.forEach(mems =>{
                         let member = {};
@@ -85,17 +86,101 @@ export default class TreeGridCmp extends LightningElement {
                         member.format10 = this.getCssStyle(member.month10);
                         member.format11 = this.getCssStyle(member.month11);
                         member.format12 = this.getCssStyle(member.month12);
-                        children.push(member);
+                        members.push(member);
 
                     });
                 }
                 return {...item,
                     'projectName' : item.Name,
-                    'memberName' : children.length + '名',
-                    _children : children
+                    'memberName' : members.length + '名',
+                    _children : members
+                }
+            })
+            
+        }
+
+        this.data.forEach(record =>{
+            console.log('projectName:' + record.projectName);
+            console.log('memberName:' + record.memberName);
+            console.log('memberNum:' + record._children.length);
+            if(record._children){
+                record._children.forEach(chld =>{
+                    console.log('name:' + chld.memberName);
+                    console.log('m01:' + chld.month01);
+                    console.log('m12:' + chld.month12);
+                })
+            }
+        })
+
+        this.tableLoadingState = false;
+        this.tableDisp = true;
+    }
+
+    handleResult2(memberList) {
+
+        let data = memberList;
+        if(data){
+            console.log('data:' + data);
+            this.data = data.map(item =>{
+                console.log('pj name:' + item.projectName);
+                let members = [];
+                if(item.members){
+                    item.members.forEach(mems =>{
+                        let member = {};
+                        console.log('mems name:' + mems.memberName);
+                        // console.log('mems pjnm:' + mems.projectName);
+                        member.memberName = mems.memberName;
+                        member.projectName = mems.projectName;
+
+                        member.month01 = mems.month01
+                        member.month02 = mems.month02
+                        member.month03 = mems.month03
+                        member.month04 = mems.month04
+                        member.month05 = mems.month05
+                        member.month06 = mems.month06
+                        member.month07 = mems.month07
+                        member.month08 = mems.month08
+                        member.month09 = mems.month09
+                        member.month10 = mems.month10
+                        member.month11 = mems.month11
+                        member.month12 = mems.month12
+                        
+                        member.format01 = this.getCssStyle(mems.month01);
+                        member.format02 = this.getCssStyle(mems.month02);
+                        member.format03 = this.getCssStyle(mems.month03);
+                        member.format04 = this.getCssStyle(mems.month04);
+                        member.format05 = this.getCssStyle(mems.month05);
+                        member.format06 = this.getCssStyle(mems.month06);
+                        member.format07 = this.getCssStyle(mems.month07);
+                        member.format08 = this.getCssStyle(mems.month08);
+                        member.format09 = this.getCssStyle(mems.month09);
+                        member.format10 = this.getCssStyle(mems.month10);
+                        member.format11 = this.getCssStyle(mems.month11);
+                        member.format12 = this.getCssStyle(mems.month12);
+                        members.push(member);
+
+                    });
+                }
+                return {...item,
+                    'projectName' : item.projectName,
+                    'memberName' : members.length + '名',
+                    _children : members
                 }
             })
         }
+
+        this.data.forEach(record =>{
+            console.log('projectName:' + record.projectName);
+            console.log('memberName:' + record.memberName);
+            console.log('memberNum:' + record._children.length);
+            if(record._children){
+                record._children.forEach(chld =>{
+                    console.log('name:' + chld.memberName);
+                    console.log('m01:' + chld.month01);
+                    console.log('m12:' + chld.month12);
+                })
+            }
+        })
 
         this.tableLoadingState = false;
         this.tableDisp = true;

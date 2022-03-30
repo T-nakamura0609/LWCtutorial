@@ -2,9 +2,9 @@ public with sharing class MemberController {
 
     private static final Integer INTEGER_MAX_VALUE = 2147483647;
 
-    private static String queryStr = 'select Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
+    private static String queryStr = 'select Id, Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
         ' July__c, August__c, September__c, October__c, November__c, December__c,' +
-        ' ProjectName__c, ProjectName__r.name ' + 
+        ' ProjectName__c, ProjectName__r.name, ProjectName__r.Id ' + 
         ' from member__c';
     
     public MemberController() {
@@ -13,11 +13,15 @@ public with sharing class MemberController {
 
     public class ParentProject {
         @AuraEnabled
+        public String Id;
+        @AuraEnabled
         public String projectName;
         @AuraEnabled
-        public List<BodyWrapper> chirdren;
+        public List<BodyWrapper> members;
     }
     public class BodyWrapper {
+        @AuraEnabled
+        public String Id;
         @AuraEnabled
         public String memberName;
         @AuraEnabled
@@ -130,41 +134,67 @@ public with sharing class MemberController {
         }
         return pjlist;
 
-        // for (member__c member : Database.query(queryStr)) {
-        //     // ここでサブクラスに再格納とCSSの設定
-        //     BodyWrapper bw = new BodyWrapper();
-        //     bw.memberName = member.Name;
-        //     bw.projectName = member.ProjectName__r.Name;
-        //     bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
-        //     bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
-        //     bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
-        //     bw.month04 = (member.April__c == null) ? '0': member.April__c.format();
-        //     bw.month05 = (member.May__c == null) ? '0': member.May__c.format();
-        //     bw.month06 = (member.June__c == null) ? '0': member.June__c.format();
-        //     bw.month07 = (member.July__c == null) ? '0': member.July__c.format();
-        //     bw.month08 = (member.August__c == null) ? '0': member.August__c.format();
-        //     bw.month09 = (member.September__c == null) ? '0': member.September__c.format();
-        //     bw.month10 = (member.October__c == null) ? '0': member.October__c.format();
-        //     bw.month11 = (member.November__c == null) ? '0': member.November__c.format();
-        //     bw.month12 = (member.December__c == null) ? '0': member.December__c.format();
+    }
 
-        //     // 一旦Mapにプロジェクト毎にまとめる
-        //     if(workmap.containsKey(bw.projectName)){
-        //         workmap.get(bw.projectName).add(bw);
-        //     }else {
-        //         List<BodyWrapper> wklist = new List<BodyWrapper>();
-        //         workmap.put(bw.projectName, wklist);
-        //         workmap.get(bw.projectName).add(bw);
+    @AuraEnabled(cacheable=true)
+    public static List<ParentProject> getMemberList3(String memberName, String projectName, String kind) {
+        // String queryStr = 'select Id, name, ( select Id, Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
+        // ' July__c, August__c, September__c, October__c, November__c, December__c,' +
+        // ' ProjectName__c, ProjectName__r.name ' + 
+        // ' from ProjectName__r ) from project__c';
+        
+        String queryCond = '';
+        queryCond = createConditionSingle(queryCond, memberName, true, true, null, 'Name');
+        queryCond = createConditionSingle(queryCond, projectName, true, true, null, 'ProjectName__r.name');
+        queryCond = createConditionSingle(queryCond, kind, false, false, null, 'Kind__c');
 
-        //         ParentProject ppwork = new ParentProject();
-        //         ppwork.projectName = bw.projectName;
-        //         ppwork.chirdren = wklist;
+        if(!String.isBlank(queryCond)){
+            queryStr = queryStr + ' WHERE ' + queryCond + ' Order by ProjectName__r.name';
+        }
+        System.debug('Query:' + queryStr);
+
+        Map<String, List<BodyWrapper>> workmap = new Map<String, List<BodyWrapper>>();
+        List<ParentProject> worklist = new List<ParentProject>();
+        
+        for (member__c member : Database.query(queryStr)) {
+            // ここでサブクラスに再格納とCSSの設定
+            // ツリーの場合はIdが必要
+            BodyWrapper bw = new BodyWrapper();
+            bw.Id = member.Id;
+            bw.memberName = member.Name;
+            bw.projectName = (member.ProjectName__r.Name == null) ? 'PJ未設定': member.ProjectName__r.Name;
+            bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
+            bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
+            bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
+            bw.month04 = (member.April__c == null) ? '0': member.April__c.format();
+            bw.month05 = (member.May__c == null) ? '0': member.May__c.format();
+            bw.month06 = (member.June__c == null) ? '0': member.June__c.format();
+            bw.month07 = (member.July__c == null) ? '0': member.July__c.format();
+            bw.month08 = (member.August__c == null) ? '0': member.August__c.format();
+            bw.month09 = (member.September__c == null) ? '0': member.September__c.format();
+            bw.month10 = (member.October__c == null) ? '0': member.October__c.format();
+            bw.month11 = (member.November__c == null) ? '0': member.November__c.format();
+            bw.month12 = (member.December__c == null) ? '0': member.December__c.format();
+
+            // 一旦Mapにプロジェクト毎にまとめる
+            if(workmap.containsKey(bw.projectName)){
+                workmap.get(bw.projectName).add(bw);
+            }else {
+                List<BodyWrapper> wklist = new List<BodyWrapper>();
+                workmap.put(bw.projectName, wklist);
+                workmap.get(bw.projectName).add(bw);
+
+                ParentProject ppwork = new ParentProject();
+                // ppwork.Id = member.ProjectName__c;
+                ppwork.Id = bw.projectName;
+                ppwork.projectName = bw.projectName;
+                ppwork.members = wklist;
                 
-        //         // 最後にリストに変換して返す
-        //         worklist.add(ppwork);
-        //     }
-        // }
-        // return worklist;
+                // 最後にリストに変換して返す
+                worklist.add(ppwork);
+            }
+        }
+        return worklist;
     }
 
     private static String createConditionSingle(
