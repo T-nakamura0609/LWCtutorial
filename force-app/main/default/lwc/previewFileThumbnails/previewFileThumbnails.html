@@ -1,0 +1,22 @@
+<template>
+    <lightning-file-upload name="fileUploader" accept={acceptedFormats} record-id={recordId}
+        onuploadfinished={handleUploadFinished} multiple>
+    </lightning-file-upload>
+
+    <br />
+    <div class="
+        slds-page-header__row
+        slds-var-m-top_x-small
+        slds-var-m-left_medium
+        slds-grid slds-wrap
+      ">
+        <ul class="slds-grid slds-wrap slds-gutters">
+            <template if:true={loaded}>
+                <template for:each={files} for:item="file">
+                    <c-preview-file-thumbnail-card key={file.Id} file={file} record-id={recordId}
+                        thumbnail={file.thumbnailFileCard}></c-preview-file-thumbnail-card>
+                </template>
+            </template>
+        </ul>
+    </div>
+</template>

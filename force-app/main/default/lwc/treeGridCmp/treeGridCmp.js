@@ -189,12 +189,12 @@ export default class TreeGridCmp extends LightningElement {
     getCssStyle(input){
         //  slds-icon-custom-custom12
         if(input == 100){
-            return 'slds-text-color_success slds-text-heading_medium';
+            return 'slds-text-color_success slds-text-heading_small';
         } else if(input > 0) {
             // return 'slds-text-color_weak';
-            return 'member-table-cmp-blue slds-text-heading_medium';
+            return 'member-table-cmp-blue slds-text-heading_small';
         } else {
-            return "slds-text-color_error slds-text-heading_medium slds-icon";
+            return "slds-text-color_error slds-text-heading_small";
         }
     }
 

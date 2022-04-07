@@ -8,13 +8,13 @@
             >
            </lightning-datatable> -->
            <template if:true={tableDisp}>
-            <lightning-datatable
-                key-field="Id"
-                data={data}
-                row-number-offset={rowOffset}
-                columns={columns}
-            >
-           </lightning-datatable>
+                <lightning-datatable
+                    key-field="Id"
+                    data={data}
+                    row-number-offset={rowOffset}
+                    columns={columns}
+                >
+            </lightning-datatable>
         </template>
     </lightning-card>
 </template>

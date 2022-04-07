@@ -1,0 +1,39 @@
+<template>
+    <template if:true={file}>
+        <li class="
+          slds-col
+          slds-var-p-vertical_x-small
+          slds-small-size_1-of-2
+          slds-medium-size_1-of-4
+          slds-large-size_1-of-6
+        ">
+            <div class="slds-file slds-file_card slds-has-title" style="width: 14rem">
+                <figure>
+                    <a class="slds-file__crop slds-file__crop_4-by-3 slds-m-top_x-small">
+                        <img src={thumbnail} alt={file.title} />
+                    </a>
+                    <figcaption class="slds-file__title slds-file__title_card">
+                        <div class="slds-media slds-media_small slds-media_center">
+                            <lightning-icon icon-name={iconName} alternative-text={file.Title} title={file.Title}
+                                size="xx-small">
+                                <span class="slds-assistive-text">{file.Title}.{file.Extension}</span>
+                            </lightning-icon>
+                            <div class="slds-media__body slds-var-p-left_xx-small">
+                                <span class="slds-file__text slds-truncate"
+                                    title={file.Title}>{file.Title}.{file.Extension}</span>
+                            </div>
+                        </div>
+                    </figcaption>
+                </figure>
+
+                <div class="slds-is-absolute" style="top: 3px; right: 5px; z-index: 10">
+                    <lightning-button-menu alternative-text="Show File Menu" variant="border-filled"
+                        icon-size="xx-small">
+                        <lightning-menu-item value="preview" label="Preview"></lightning-menu-item>
+                        <lightning-menu-item value="delete" label="Delete"></lightning-menu-item>
+                    </lightning-button-menu>
+                </div>
+            </div>
+        </li>
+    </template>
+</template>
