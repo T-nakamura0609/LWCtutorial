@@ -2,6 +2,7 @@ public with sharing class MemberController {
 
     private static final Integer INTEGER_MAX_VALUE = 2147483647;
 
+    // 検索用SQL
     private static String queryStr = 'select Id, Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
         ' July__c, August__c, September__c, October__c, November__c, December__c,' +
         ' ProjectName__c, ProjectName__r.name, ProjectName__r.Id ' + 
@@ -11,16 +12,20 @@ public with sharing class MemberController {
 
     }
 
+    // 検索結果をApexとjsで連携する様に用意したDTOクラス
     public class ParentProject {
         @AuraEnabled
-        public String Id;
+        // プロジェクトオブジェクトのレコードID
+        public String Id;   
         @AuraEnabled
+        // プロジェクト名
         public String projectName;
         @AuraEnabled
         public List<BodyWrapper> members;
     }
     public class BodyWrapper {
         @AuraEnabled
+        // 要員オブジェクトのレコードIDの
         public String Id;
         @AuraEnabled
         public String memberName;
@@ -52,6 +57,8 @@ public with sharing class MemberController {
         public String month12;
     }
 
+    // 確認用に3種メソッド作っている
+    // テーブル表示用
     @AuraEnabled(cacheable=true)
     public static List<BodyWrapper> getMemberList(String memberName, String projectName, String kind) {
         String queryCond = '';
@@ -68,11 +75,13 @@ public with sharing class MemberController {
         
         // List<member__c> members = Database.query(queryStr);
         
+        // Database#query でSQLを実行
         for (member__c member : Database.query(queryStr)) {
-            // ここでサブクラスに再格納とCSSの設定
             BodyWrapper bw = new BodyWrapper();
             bw.memberName = member.Name;
             bw.projectName = member.ProjectName__r.Name;
+            // 稼働率が空欄を許容しているのでnull時はゼロとしてjs側では何らかの値が設定されている前提で実装
+            // 読み方がわからない人は三項演算子でググれ
             bw.month01 = (member.January__c == null) ? '0': member.January__c.format();
             bw.month02 = (member.February__c == null) ? '0': member.February__c.format();
             bw.month03 = (member.March__c == null) ? '0': member.March__c.format();
@@ -136,6 +145,7 @@ public with sharing class MemberController {
 
     }
 
+    // ツリー表示用
     @AuraEnabled(cacheable=true)
     public static List<ParentProject> getMemberList3(String memberName, String projectName, String kind) {
         // String queryStr = 'select Id, name, ( select Id, Name, January__c, February__c, March__c, April__c, May__c, June__c, ' + 
@@ -197,6 +207,7 @@ public with sharing class MemberController {
         return worklist;
     }
 
+    // 検索欄の内容をSQL用に変換している どこかのサイトからコピーしてきたもの
     private static String createConditionSingle(
         String prevCond, String searchString, Boolean preLike, Boolean postLike, Decimal searchNumeric, String fieldName ) {
         

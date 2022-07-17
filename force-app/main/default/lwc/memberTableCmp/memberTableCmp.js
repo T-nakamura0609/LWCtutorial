@@ -5,6 +5,7 @@ import { registerListener, unregisterAllListeners } from 'c/pubsub';
 import {loadStyle} from 'lightning/platformResourceLoader'
 import COLORS from '@salesforce/resourceUrl/colors'
 
+// 検索結果に表示するカラム名の定義
 const COLUMNS = [
     {label: '技術者名', fieldName: 'memberName'},
     {label: '配属プロジェクト', fieldName: 'projectName', type: 'text'},
@@ -32,20 +33,39 @@ export default class MemberTableCmp extends LightningElement {
     rowOffset = 0;
     isCssLoaded = false
 
+    // コンポーネント作成時イベントメソッド
+    // 標準的な初期化処理はここで定義
     connectedCallback() {
         // subscribe to searchKeyChange event
+        // memberSerchForm で設定したキーを指定して結果を取得出来るようにpubusubへ登録
         registerListener('searchResult', this.handleResult, this);
     }
 
+    // 後始末はここで定義
     disconnectedCallback() {
         // unsubscribe from searchKeyChange event
+        // pubsubへの登録を削除
         unregisterAllListeners(this);
     }
 
+    // 描画が終わったタイミングで呼び出される
+    renderedCallback(){ 
+        if(this.isCssLoaded) return
+        this.isCssLoaded = true
+        loadStyle(this, COLORS).then(()=>{
+            console.log("Loaded Successfully")
+        }).catch(error=>{ 
+            console.error("Error in loading the colors")
+        })
+    }
+
+    // ここから使用者側の定義
+    // Apexからの検索結果の読み取り箇所
     handleResult(memberList) {
         const data = memberList;
         if(data){
             this.data = data.map(item=>{
+                // 稼働率に応じたCSSを設定
                 var format01 = this.getCssStyle(item.month01);
                 var format02 = this.getCssStyle(item.month02);
                 var format03 = this.getCssStyle(item.month03);
@@ -80,6 +100,7 @@ export default class MemberTableCmp extends LightningElement {
         this.tableDisp = true;
     }
 
+    // 稼働率別の設定するCSSの判定
     getCssStyle(input){
         if(input == 100){
             //  slds-icon-custom-custom12
@@ -92,16 +113,5 @@ export default class MemberTableCmp extends LightningElement {
         }
     }
 
-    renderedCallback(){ 
-        if(this.isCssLoaded) return
-        this.isCssLoaded = true
-        loadStyle(this, COLORS).then(()=>{
-            console.log("Loaded Successfully")
-        }).catch(error=>{ 
-            console.error("Error in loading the colors")
-        })
-    }
-    // columns = COLUMNS;
-    // @wire(getMemberList)
-    // members;
+
 }

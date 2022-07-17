@@ -90,6 +90,7 @@ export default class TreeGridCmp extends LightningElement {
 
                     });
                 }
+
                 return {...item,
                     'projectName' : item.Name,
                     'memberName' : members.length + '名',
@@ -99,6 +100,7 @@ export default class TreeGridCmp extends LightningElement {
             
         }
 
+        // デバグ用にコンソールログへ出力
         this.data.forEach(record =>{
             console.log('projectName:' + record.projectName);
             console.log('memberName:' + record.memberName);
@@ -161,6 +163,8 @@ export default class TreeGridCmp extends LightningElement {
 
                     });
                 }
+                // Apex側でアレコレ構造を変えても結局js側で
+                // _children の属性を付けないとツリーとして表示されない
                 return {...item,
                     'projectName' : item.projectName,
                     'memberName' : members.length + '名',
@@ -169,6 +173,7 @@ export default class TreeGridCmp extends LightningElement {
             })
         }
 
+        // デバグ用にコンソールログへ出力
         this.data.forEach(record =>{
             console.log('projectName:' + record.projectName);
             console.log('memberName:' + record.memberName);

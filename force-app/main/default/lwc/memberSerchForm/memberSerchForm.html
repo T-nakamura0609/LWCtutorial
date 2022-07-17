@@ -9,6 +9,7 @@
         </template> -->
         <div class="c-container">
             <lightning-layout>
+                <!-- MemberName の検索欄の定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
                         <p class="field-title" title="MemberName">Member Name</p>
@@ -16,6 +17,7 @@
                     <lightning-input label="MemberName" name="memberName" variant="label-hidden" onchange={handleAccountNameChange} value={memberName}></lightning-input>
                 </lightning-layout-item>
 
+                <!-- ProjectName の検索欄の定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
                         <p class="field-title" title="ProjectName">Project Name</p>
@@ -23,6 +25,7 @@
                     <lightning-input label="Phone" name="phone" type="tel" variant="label-hidden" onchange={handlePhoneChange} value={projectName}></lightning-input>
                 </lightning-layout-item>
 
+                <!-- Typeプルダウンの定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
                         <p class="field-title" title="Type">Type</p>
@@ -44,6 +47,7 @@
                     <lightning-input label="DunsNumber" name="dunsNumber" variant="label-hidden" onchange={handleDunsNumberChange} value={dunsNumber}></lightning-input>
                 </lightning-layout-item>
                  -->
+                 <!-- Search ボタンの定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <lightning-button variant="brand" label="Search" title="Search" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
                 </lightning-layout-item>
