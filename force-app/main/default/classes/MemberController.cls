@@ -78,8 +78,9 @@ public with sharing class MemberController {
         // Database#query でSQLを実行
         for (member__c member : Database.query(queryStr)) {
             BodyWrapper bw = new BodyWrapper();
+            bw.Id = member.Id;
             bw.memberName = member.Name;
-            bw.projectName = member.ProjectName__r.Name;
+            bw.projectName = (member.ProjectName__r.Name == null) ? 'PJ未設定': member.ProjectName__r.Name;
             // 稼働率が空欄を許容しているのでnull時はゼロとしてjs側では何らかの値が設定されている前提で実装
             // 読み方がわからない人は三項演算子でググれ
             bw.month01 = (member.January__c == null) ? '0': member.January__c.format();

@@ -94,4 +94,8 @@ export default class MemberSerchForm extends LightningElement {
                 this.error = error;
             });
     }
+
+    landleUpdate() {
+
+    }
 }

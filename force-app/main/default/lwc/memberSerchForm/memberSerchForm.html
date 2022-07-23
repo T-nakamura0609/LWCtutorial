@@ -12,7 +12,7 @@
                 <!-- MemberName の検索欄の定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
-                        <p class="field-title" title="MemberName">Member Name</p>
+                        <p class="field-title" title="MemberName">技術者名</p>
                     </div>
                     <lightning-input label="MemberName" name="memberName" variant="label-hidden" onchange={handleAccountNameChange} value={memberName}></lightning-input>
                 </lightning-layout-item>
@@ -20,7 +20,7 @@
                 <!-- ProjectName の検索欄の定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
-                        <p class="field-title" title="ProjectName">Project Name</p>
+                        <p class="field-title" title="ProjectName">プロジェクト名</p>
                     </div>
                     <lightning-input label="Phone" name="phone" type="tel" variant="label-hidden" onchange={handlePhoneChange} value={projectName}></lightning-input>
                 </lightning-layout-item>
@@ -49,7 +49,7 @@
                  -->
                  <!-- Search ボタンの定義箇所 -->
                 <lightning-layout-item padding="around-small">
-                    <lightning-button variant="brand" label="Search" title="Search" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label="検索" title="Search" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
                 </lightning-layout-item>
             </lightning-layout>
         </div>

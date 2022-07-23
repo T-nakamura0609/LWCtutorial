@@ -1,8 +1,13 @@
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, track, wire, api } from 'lwc';
 
 import { CurrentPageReference } from 'lightning/navigation';
 import { registerListener, unregisterAllListeners } from 'c/pubsub';
 import {loadStyle} from 'lightning/platformResourceLoader'
+
+import { refreshApex } from '@salesforce/apex';
+import { updateRecord } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 import COLORS from '@salesforce/resourceUrl/colors'
 
 // 検索結果に表示するカラム名の定義
@@ -32,6 +37,7 @@ export default class MemberTableCmp extends LightningElement {
     @track tableDisp = false;
     rowOffset = 0;
     isCssLoaded = false
+    saveDraftValues = [];
 
     // コンポーネント作成時イベントメソッド
     // 標準的な初期化処理はここで定義
@@ -98,6 +104,10 @@ export default class MemberTableCmp extends LightningElement {
         // this.data = data;
         this.tableLoadingState = false;
         this.tableDisp = true;
+
+        // ここに絞り込みたい月の情報を抽出したい
+
+        // 
     }
 
     // 稼働率別の設定するCSSの判定
@@ -113,5 +123,65 @@ export default class MemberTableCmp extends LightningElement {
         }
     }
 
+    // 保存ボタン押下時のイベント処理
+    handleSave(event){
+        this.saveDraftValues = event.detail.draftValues;
+        console.log(this.saveDraftValues);
 
+        // draftValuesの内容をrecordInputsに展開
+        const recordInputs = this.saveDraftValues.slice().map(draft => {
+            const fields = Object.assign({}, draft);
+            return { fields };
+        });
+        console.log(recordInputs);
+
+        // 変数名を技術者OBJのものに直す
+        const recordInputs2 = recordInputs.map( recordInput =>{
+            let field = {};
+
+            const objKeys = Object.keys(recordInput.fields);
+            console.log(objKeys);
+            // レコードID
+            field.Id = recordInput.fields.Id;
+
+            // 1月～12月の変換箇所
+            const fieldsObj = recordInput.fields;
+            if( fieldsObj.hasOwnProperty('month01') ){
+                field.January__c = fieldsObj.month01;
+            }
+            // ここに残りの月を書く
+            
+            // fields プロパティ名を付けて返す
+            return { fields : field };
+        });
+        console.log(recordInputs2);
+        
+
+        // Updateing the records using the UiRecordAPi
+        const promises = recordInputs2.map(recordInput => updateRecord(recordInput));
+        Promise.all(promises).then(res => {
+            this.ShowToast('Success', 'Records Updated Successfully!', 'success', 'dismissable');
+            this.saveDraftValues = [];
+            return this.refresh();
+        }).catch(error => {
+            this.ShowToast('Error', 'An Error Occured!!', 'error', 'dismissable');
+        }).finally(() => {
+            this.saveDraftValues = [];
+        });
+    }
+
+    ShowToast(title, message, variant, mode){
+        const evt = new ShowToastEvent({
+                title: title,
+                message:message,
+                variant: variant,
+                mode: mode
+            });
+            this.dispatchEvent(evt);
+    }
+
+    // This function is used to refresh the table once data updated
+    async refresh() {
+        await refreshApex(this.contacts);
+    }
 }
