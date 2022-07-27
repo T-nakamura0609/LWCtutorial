@@ -150,6 +150,49 @@ export default class MemberTableCmp extends LightningElement {
                 field.January__c = fieldsObj.month01;
             }
             // ここに残りの月を書く
+            if( fieldsObj.hasOwnProperty('month02') ){																									
+                field.February__c = fieldsObj.month02;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month03') ){																									
+                field.March__c = fieldsObj.month03;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month04') ){																									
+                field.April__c = fieldsObj.month04;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month05') ){																									
+                field.May__c = fieldsObj.month05;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month06') ){																									
+                field.June__c = fieldsObj.month06;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month07') ){																									
+                field.July__c = fieldsObj.month07;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month08') ){																									
+                field.August__c = fieldsObj.month08;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month09') ){																									
+                field.September__c = fieldsObj.month09;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month10') ){																									
+                field.October__c = fieldsObj.month10;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month11') ){																									
+                field.November__c = fieldsObj.month11;																									
+            }																									
+                                                                                                                    
+            if( fieldsObj.hasOwnProperty('month12') ){																									
+                field.December__c = fieldsObj.month12;																									
+            }
             
             // fields プロパティ名を付けて返す
             return { fields : field };
