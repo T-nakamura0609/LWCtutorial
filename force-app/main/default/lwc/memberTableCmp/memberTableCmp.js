@@ -149,7 +149,7 @@ export default class MemberTableCmp extends LightningElement {
             if( fieldsObj.hasOwnProperty('month01') ){
                 field.January__c = fieldsObj.month01;
             }
-            // ここに残りの月を書く
+            
             if( fieldsObj.hasOwnProperty('month02') ){																									
                 field.February__c = fieldsObj.month02;																									
             }																									
