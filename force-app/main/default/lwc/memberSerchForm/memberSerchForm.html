@@ -39,6 +39,22 @@
                         variant="label-hidden"
                         onchange={handleTypeChange} ></lightning-combobox>
                 </lightning-layout-item>
+
+                <!-- Periodbeginプルダウンの定義箇所(石川) -->
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p class="field-title" title="Periodbegin">Period begin</p>
+                    </div>
+                    <lightning-combobox label="Periodbegin" name="Periodbegin" value={Periodbegin} placeholder="Select Period" options={optionbegin} variant="label-hidden" onchange={handlePeriodbeginChange}></lightning-combobox>
+                </lightning-layout-item>
+
+                <!-- Periodendプルダウンの定義箇所(石川) -->
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p class="field-title" title="Periodend">Period end</p>
+                    </div>
+                    <lightning-combobox label="Periodend" name="Periodend" value={Periodend} placeholder="Select Period" options={optionend} variant="label-hidden" onchange={handlePeriodendChange}></lightning-combobox>
+                </lightning-layout-item>
 <!-- 
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">

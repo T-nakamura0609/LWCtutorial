@@ -44,24 +44,12 @@ export default class MemberTableCmp extends LightningElement {
     isCssLoaded = false
     saveDraftValues = [];
 
-    // 2220729_期間指定開発
-    // 一時期間指定数の定義
-    startM = 4;
-    endM = 6;
     // コンポーネント作成時イベントメソッド
     // 標準的な初期化処理はここで定義
     connectedCallback() {
         // subscribe to searchKeyChange event
         // memberSerchForm で設定したキーを指定して結果を取得出来るようにpubusubへ登録
-        registerListener('searchMonth', this.handleResult2, this);
         registerListener('searchResult', this.handleResult, this);
-    }
-
-    handleResult2(params) {
-        this.startM = params.Periodbegin;
-        this.endM = params.Periodend;
-        console.log('startM' + startM);
-        console.log('endM' + endM);
     }
 
     // 後始末はここで定義
@@ -85,24 +73,6 @@ export default class MemberTableCmp extends LightningElement {
     // ここから使用者側の定義
     // Apexからの検索結果の読み取り箇所
     handleResult(memberList) {
-
-        // 2220729_期間指定開発
-        // 期間指定数キーの定義
-        var m01 = 1;
-        var m02 = 2;
-        var m03 = 3;
-        var m04 = 4;
-        var m05 = 5;
-        var m06 = 6;
-        var m07 = 7;
-        var m08 = 8;
-        var m09 = 9;
-        var m10 = 10;
-        var m11 = 11;
-        var m12 = 12;
-
-        let field1 = {};
-
         const data = memberList;
         if(data){
             this.data = data.map(item=>{
@@ -119,45 +89,6 @@ export default class MemberTableCmp extends LightningElement {
                 var format10 = this.getCssStyle(item.month10);
                 var format11 = this.getCssStyle(item.month11);
                 var format12 = this.getCssStyle(item.month12);
-
-                // 2220729_期間指定開発
-                if (this.startM <= m01 && this.endM >= m01) {
-                    field1.format01 = format01
-                };
-                if (this.startM <= m02 && this.endM >= m02) {
-                    field1.format02 = format02
-                };
-                if (this.startM <= m03 && this.endM >= m03) {
-                    field1.format03 = format03
-                };
-                if (this.startM <= m04 && this.endM >= m04) {
-                    field1.format04 = format04
-                };
-                if (this.startM <= m05 && this.endM >= m05) {
-                    field1.format05 = format05
-                };
-                if (this.startM <= m06 && this.endM >= m06) {
-                    field1.format06 = format06
-                };
-                if (this.startM <= m07 && this.endM >= m07) {
-                    field1.format07 = format07
-                };
-                if (this.startM <= m08 && this.endM >= m08) {
-                    field1.format08 = format08
-                };
-                if (this.startM <= m09 && this.endM >= m09) {
-                    field1.format09 = format09
-                };
-                if (this.startM <= m10 && this.endM >= m10) {
-                    field1.format10 = format10
-                };
-                if (this.startM <= m11 && this.endM >= m11) {
-                    field1.format11 = format11
-                };
-                if (this.startM <= m12 && this.endM >= m12) {
-                    field1.format12 = format12
-                };
-
                 return {...item,
                     'format01' : format01,
                     'format02' : format02,
@@ -180,52 +111,7 @@ export default class MemberTableCmp extends LightningElement {
         this.tableDisp = true;
 
         // ここに絞り込みたい月の情報を抽出したい
-        // 2220729_期間指定開発
-        // colums絞り込み
 
-        let COLUMNS1 = [{ label: '技術者名', fieldName: 'memberName' },
-            { label: '配属プロジェクト', fieldName: 'projectName', type: 'text' },
-        ];
-
-        if (this.startM <= m01 && this.endM >= m01) {
-            COLUMNS1.push({ label: '1月', fieldName: 'month01', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format01' } } });
-        };
-        if (this.startM <= m02 && this.endM >= m02) {
-            COLUMNS1.push({ label: '2月', fieldName: 'month02', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format02' } } });
-        };
-        if (this.startM <= m03 && this.endM >= m03) {
-            COLUMNS1.push({ label: '3月', fieldName: 'month03', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format03' } } });
-        };
-        if (this.startM <= m04 && this.endM >= m04) {
-            COLUMNS1.push({ label: '4月', fieldName: 'month04', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format04' } } });
-        };
-        if (this.startM <= m05 && this.endM >= m05) {
-            COLUMNS1.push({ label: '5月', fieldName: 'month05', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format05' } } });
-        };
-        if (this.startM <= m06 && this.endM >= m06) {
-            COLUMNS1.push({ label: '6月', fieldName: 'month06', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format06' } } });
-        };
-        if (this.startM <= m07 && this.endM >= m07) {
-            COLUMNS1.push({ label: '7月', fieldName: 'month07', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format07' } } });
-        };
-        if (this.startM <= m08 && this.endM >= m08) {
-            COLUMNS1.push({ label: '8月', fieldName: 'month08', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format08' } } });
-        };
-        if (this.startM <= m09 && this.endM >= m09) {
-            COLUMNS1.push({ label: '9月', fieldName: 'month09', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format09' } } });
-        };
-        if (this.startM <= m10 && this.endM >= m10) {
-            COLUMNS1.push({ label: '10月', fieldName: 'month10', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format10' } } });
-        };
-        if (this.startM <= m11 && this.endM >= m11) {
-            COLUMNS1.push({ label: '11月', fieldName: 'month11', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format11' } } });
-        };
-        if (this.startM <= m12 && this.endM >= m12) {
-            COLUMNS1.push({ label: '12月', fieldName: 'month12', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format12' } } });
-        };
-
-        // this.COLUMNS2 = COLUMNS1;
-        this.columns = COLUMNS1;
         // 
     }
 
