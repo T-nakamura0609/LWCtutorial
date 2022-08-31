@@ -46,8 +46,8 @@ export default class MemberTableCmp extends LightningElement {
 
     // 2220729_期間指定開発
     // 一時期間指定数の定義
-    startM = 4;
-    endM = 6;
+    startM;
+    endM;
     // コンポーネント作成時イベントメソッド
     // 標準的な初期化処理はここで定義
     connectedCallback() {
