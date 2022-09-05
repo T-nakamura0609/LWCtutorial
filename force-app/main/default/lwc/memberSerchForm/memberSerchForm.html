@@ -1,8 +1,8 @@
 <template>
     <lightning-card >
         <div class="slds-m-around_medium">
-            <h1 class="slds-text-heading_small">Account SearchForm</h1>
-            <p class="slds-text-body_regular">Enter the conditions for searching for the target account.</p>
+            <h1 class="slds-text-heading_small"></h1>
+            <p class="slds-text-body_regular"></p>
         </div>
         <!-- <template if:true={error}>
             <c-error-panel errors={error}></c-error-panel>
@@ -28,7 +28,7 @@
                 <!-- Typeプルダウンの定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
-                        <p class="field-title" title="Type">Type</p>
+                        <p class="field-title" title="Type">種別</p>
                     </div>
                     <lightning-combobox
                         label="Type"
@@ -43,17 +43,17 @@
                 <!-- Periodbeginプルダウンの定義箇所(石川) -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
-                        <p class="field-title" title="Periodbegin">Period begin</p>
+                        <p class="field-title" title="Periodbegin">開始月</p>
                     </div>
-                    <lightning-combobox label="Periodbegin" name="Periodbegin" value={Periodbegin} placeholder="Select Period" options={optionbegin} variant="label-hidden" onchange={handlePeriodbeginChange}></lightning-combobox>
+                    <lightning-combobox label="Periodbegin" name="Periodbegin" value={Periodbegin} placeholder="選択" options={optionbegin} variant="label-hidden" onchange={handlePeriodbeginChange}></lightning-combobox>
                 </lightning-layout-item>
 
                 <!-- Periodendプルダウンの定義箇所(石川) -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
-                        <p class="field-title" title="Periodend">Period end</p>
+                        <p class="field-title" title="Periodend">終了月</p>
                     </div>
-                    <lightning-combobox label="Periodend" name="Periodend" value={Periodend} placeholder="Select Period" options={optionend} variant="label-hidden" onchange={handlePeriodendChange}></lightning-combobox>
+                    <lightning-combobox label="Periodend" name="Periodend" value={Periodend} placeholder="選択" options={optionend} variant="label-hidden" onchange={handlePeriodendChange}></lightning-combobox>
                 </lightning-layout-item>
 <!-- 
                 <lightning-layout-item padding="around-small">
