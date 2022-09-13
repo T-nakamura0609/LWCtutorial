@@ -236,9 +236,9 @@ export default class MemberTableCmp extends LightningElement {
             return 'slds-text-color_success slds-text-heading_small';
         } else if(input > 0) {
             // return 'slds-text-color_weak';
-            return 'member-table-cmp-blue slds-text-heading_medium';
+            return 'member-table-cmp-blue slds-text-heading_small';
         } else {
-            return "slds-text-color_error slds-text-heading_large slds-icon";
+            return "slds-text-color_error slds-text-heading_small slds-icon";
         }
     }
 
