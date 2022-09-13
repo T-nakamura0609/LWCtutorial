@@ -179,7 +179,6 @@ export default class MemberTableCmp extends LightningElement {
         this.tableLoadingState = false;
         this.tableDisp = true;
 
-        // ここに絞り込みたい月の情報を抽出したい
         // 2220729_期間指定開発
         // colums絞り込み
 
