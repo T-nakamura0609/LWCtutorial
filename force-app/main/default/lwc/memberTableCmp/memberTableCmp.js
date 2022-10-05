@@ -187,15 +187,12 @@ export default class MemberTableCmp extends LightningElement {
             { label: '配属プロジェクト', fieldName: 'projectName', type: 'text' },
         ];
 
-        if (this.startM <= m01 && this.endM >= m01) {
-            COLUMNS1.push({ label: '1月', fieldName: 'month01', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format01' } } });
-        };
-        if (this.startM <= m02 && this.endM >= m02) {
-            COLUMNS1.push({ label: '2月', fieldName: 'month02', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format02' } } });
-        };
-        if (this.startM <= m03 && this.endM >= m03) {
-            COLUMNS1.push({ label: '3月', fieldName: 'month03', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format03' } } });
-        };
+        // 20220915 期間選択年またぎ
+        // if=trueは開始4月-12、終了4-12月の間のパターン
+        // elseifは開始4月-12、終了1-3月の間のパターン
+        // elseは開始1月-3、終了1-3月の間のパターン
+        if (4 <= this.startM && this.startM <= 12 && 4 <= this.endM && this.endM <= 12) {
+
         if (this.startM <= m04 && this.endM >= m04) {
             COLUMNS1.push({ label: '4月', fieldName: 'month04', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format04' } } });
         };
@@ -223,6 +220,60 @@ export default class MemberTableCmp extends LightningElement {
         if (this.startM <= m12 && this.endM >= m12) {
             COLUMNS1.push({ label: '12月', fieldName: 'month12', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format12' } } });
         };
+
+        } else if (4 <= this.startM && this.startM <= 12 && 1 <= this.endM && this.endM <= 3) {
+
+            if (this.startM <= m04) {
+                COLUMNS1.push({ label: '4月', fieldName: 'month04', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format04' } } });
+            };
+            if (this.startM <= m05) {
+                COLUMNS1.push({ label: '5月', fieldName: 'month05', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format05' } } });
+            };
+            if (this.startM <= m06) {
+                COLUMNS1.push({ label: '6月', fieldName: 'month06', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format06' } } });
+            };
+            if (this.startM <= m07) {
+                COLUMNS1.push({ label: '7月', fieldName: 'month07', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format07' } } });
+            };
+            if (this.startM <= m08) {
+                COLUMNS1.push({ label: '8月', fieldName: 'month08', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format08' } } });
+            };
+            if (this.startM <= m09) {
+                COLUMNS1.push({ label: '9月', fieldName: 'month09', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format09' } } });
+            };
+            if (this.startM <= m10) {
+                COLUMNS1.push({ label: '10月', fieldName: 'month10', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format10' } } });
+            };
+            if (this.startM <= m11) {
+                COLUMNS1.push({ label: '11月', fieldName: 'month11', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format11' } } });
+            };
+            if (this.startM <= m12) {
+                COLUMNS1.push({ label: '12月', fieldName: 'month12', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format12' } } });
+            };
+
+            if (this.endM >= m01) {
+                COLUMNS1.push({ label: '1月', fieldName: 'month01', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format01' } } });
+            };
+            if (this.endM >= m02) {
+                COLUMNS1.push({ label: '2月', fieldName: 'month02', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format02' } } });
+            };
+            if (this.endM >= m03) {
+                COLUMNS1.push({ label: '3月', fieldName: 'month03', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format03' } } });
+            };
+
+        } else {
+
+            if (this.startM <= m01 && this.endM >= m01) {
+                COLUMNS1.push({ label: '1月', fieldName: 'month01', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format01' } } });
+            };
+            if (this.startM <= m02 && this.endM >= m02) {
+                COLUMNS1.push({ label: '2月', fieldName: 'month02', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format02' } } });
+            };
+            if (this.startM <= m03 && this.endM >= m03) {
+                COLUMNS1.push({ label: '3月', fieldName: 'month03', type: 'text', editable: true, cellAttributes: { class: { fieldName: 'format03' } } });
+            };
+
+        }
 
         // this.COLUMNS2 = COLUMNS1;
         this.columns = COLUMNS1;
