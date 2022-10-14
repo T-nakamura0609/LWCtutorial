@@ -15,7 +15,7 @@ import { fireEvent } from 'c/pubsub';
 
 // 検索結果に表示するカラム名の定義
 const COLUMNS = [
-    {label: '技術者名', fieldName: 'memberName'},
+    {label: '技術者名', fieldName: 'memberName02', type: 'url',   typeAttributes: { label: { fieldName: 'memberName01' } } },
     {label: '配属プロジェクト', fieldName: 'projectName', type: 'text'},
     {label: '1月', fieldName: 'month01', type: 'text', editable: true , cellAttributes:{class:{fieldName: 'format01'} }},
     {label: '2月', fieldName: 'month02', type: 'text', editable: true , cellAttributes:{class:{fieldName: 'format02'} }},
@@ -119,7 +119,10 @@ export default class MemberTableCmp extends LightningElement {
                 var format10 = this.getCssStyle(item.month10);
                 var format11 = this.getCssStyle(item.month11);
                 var format12 = this.getCssStyle(item.month12);
-
+                //20221011_技術者レコードへのリンク追加
+                var memberName02 = '';
+                var memberName01 = '';
+                
                 // 2220729_期間指定開発
                 if (this.startM <= m01 && this.endM >= m01) {
                     field1.format01 = format01
@@ -158,6 +161,10 @@ export default class MemberTableCmp extends LightningElement {
                     field1.format12 = format12
                 };
 
+                //20221011_技術者レコードへのリンク追加
+                memberName02 = '/lightning/r/member__c/' + item.Id + '/view';
+                memberName01 = item.memberName;
+               
                 return {...item,
                     'format01' : format01,
                     'format02' : format02,
@@ -171,6 +178,9 @@ export default class MemberTableCmp extends LightningElement {
                     'format10' : format10,
                     'format11' : format11,
                     'format12' : format12,
+                    //20221011_技術者レコードへのリンク追加
+                    'memberName02' : memberName02,
+                    'memberName01' : memberName01
                 }
             });
             console.log(this.data)
@@ -183,7 +193,7 @@ export default class MemberTableCmp extends LightningElement {
         // 2220729_期間指定開発
         // colums絞り込み
 
-        let COLUMNS1 = [{ label: '技術者名', fieldName: 'memberName' },
+        let COLUMNS1 = [{ label: '技術者名', fieldName: 'memberName02', type:'url', typeAttributes: { label: { fieldName: 'memberName01'} } },
             { label: '配属プロジェクト', fieldName: 'projectName', type: 'text' },
         ];
 
