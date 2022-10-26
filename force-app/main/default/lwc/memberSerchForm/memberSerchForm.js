@@ -13,10 +13,10 @@ import { fireEvent } from 'c/pubsub';
 export default class MemberSerchForm extends LightningElement {
     @wire(CurrentPageReference) pageRef;
 
-    @track memberName = "";
     @track projectName = "";
+    @track memberName = "";
     @track type = "";
-    @track dunsNumber =""
+    @track dunsNumber ="";
     @track Periodbegin = "";
     @track Periodend = "";
 
@@ -110,7 +110,7 @@ export default class MemberSerchForm extends LightningElement {
 
     // @track response;
 
-    @wire(getMemberList, {memberName: '$memberName', projectName: '$projectName', kind: '$type'})
+    @wire(getMemberList, {memberName: '$memberName', projectName: '$projectName', kind: '$type', ContractPrice: '$ContractPrice', OutsourcingPrice: 'OutsourcingPrice'})
     readTable(result){
         if(result.data){
             // this.response = result.data;
@@ -132,6 +132,8 @@ export default class MemberSerchForm extends LightningElement {
         let params = {};
         params.memberName = this.memberName;
         params.projectName = this.projectName;
+        params.ContractPrice = this.ContractPrice;
+        params.OutsourcingPrice = this.OutsourcingPrice;
         params.kind = this.type;
         // params.dunsNumber = this.dunsNumber;
 

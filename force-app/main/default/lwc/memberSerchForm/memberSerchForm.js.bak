@@ -140,6 +140,9 @@ export default class MemberSerchForm extends LightningElement {
         // pubsubクラスを介して他コンポーネントと連携
         let pageRef = this.pageRef;
 
+        // tabelCmpに受け渡すためのメソッド 
+        fireEvent(pageRef, 'searchMonth', params);
+
         // Apex MemberController#getMemberList呼出
         getMemberList(params)
             .then(result => {

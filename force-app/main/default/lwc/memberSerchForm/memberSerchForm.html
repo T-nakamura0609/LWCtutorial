@@ -9,20 +9,22 @@
         </template> -->
         <div class="c-container">
             <lightning-layout>
-                <!-- MemberName の検索欄の定義箇所 -->
-                <lightning-layout-item padding="around-small">
-                    <div class="header-column">
-                        <p class="field-title" title="MemberName">技術者名</p>
-                    </div>
-                    <lightning-input label="MemberName" name="memberName" variant="label-hidden" onchange={handleAccountNameChange} value={memberName}></lightning-input>
-                </lightning-layout-item>
-
+            <div>
+            <lightning-layout>
                 <!-- ProjectName の検索欄の定義箇所 -->
                 <lightning-layout-item padding="around-small">
                     <div class="header-column">
                         <p class="field-title" title="ProjectName">プロジェクト名</p>
                     </div>
                     <lightning-input label="Phone" name="phone" type="tel" variant="label-hidden" onchange={handlePhoneChange} value={projectName}></lightning-input>
+                </lightning-layout-item>
+
+                <!-- MemberName の検索欄の定義箇所 -->
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p class="field-title" title="MemberName">技術者名</p>
+                    </div>
+                    <lightning-input label="MemberName" name="memberName" variant="label-hidden" onchange={handleAccountNameChange} value={memberName}></lightning-input>
                 </lightning-layout-item>
 
                 <!-- Typeプルダウンの定義箇所 -->
@@ -64,9 +66,25 @@
                 </lightning-layout-item>
                  -->
                  <!-- Search ボタンの定義箇所 -->
-                <lightning-layout-item padding="around-small">
+                    <!-- <lightning-layout-item padding="horizontal-large">
+                        <div class="header-colum">
+                            <p class="field-title" title="search"> </p><br>
+                        </div>
                     <lightning-button variant="brand" label="検索" title="Search" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
+                    </lightning-layout-item> -->
+            </lightning-layout>
+            </div>
+
+            <div>
+            <lightning-layout horizontal-align="end">
+                <lightning-layout-item padding="around-medium">
+                    <div class="header-colum">
+                        <p class="field-title" title="search"> </p><br>
+                    </div>
+                    <lightning-button variant="brand" label="検索" title="Search" icon-position="right" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
                 </lightning-layout-item>
+            </lightning-layout>
+            </div>
             </lightning-layout>
         </div>
     </lightning-card>
