@@ -69,7 +69,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
                 pageName:'filePreview'
             },
             state:{
-                recordIds: 'aa',
+                recordIds: event.target.dataset.id,
                 selectedRecordId: event.target.dataset.id
             }
         });

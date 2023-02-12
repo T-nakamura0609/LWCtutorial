@@ -8,14 +8,19 @@
                         <p><strong>FileName : </strong>{file.label}</p>
                     </div>
                     <div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_6-of-12">
-                        <img src={file.url} alt={file.label} title={file.label}/>
+                        <img src={file.url} alt={file.label} title={file.label} 
+                        data-id={file.value}
+                        onclick={previewHandler}/>
                     </div>
+
                     <div class="slds-col slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
                         <lightning-button label="Preview" variant="brand"
                         data-id={file.value}
                         onclick={previewHandler}
                         ></lightning-button>
                     </div>
+                    
+<!-- 
                     <div class="slds-col slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
                         <lightning-button 
                             label="ImageDetail" 
@@ -24,6 +29,7 @@
                             onclick={recordviewHandler}
                         ></lightning-button>
                     </div>
+                     -->
                 </div>
             </div>
         </template>
